@@ -150,7 +150,7 @@ def SwitchAlarm():      #Switch Ecount_trigger
     for indexSwIP in range(len(lstSANSwitchIPs)):
         for intPortNum in lstSWPorts[indexSwIP]:
                 try:
-                    Encout_list=Switch_info[indexSwIP]['PortInfo'][intPortNum][4]['LinkFL'] 
+                    Encout_list=Switch_info[indexSwIP]['PortInfo'][intPortNum][2]['Encout'] 
                     Discc3_list=Switch_info[indexSwIP]['PortInfo'][intPortNum][3]['Discc3']
                     err_ls.append(Encout_list)
                     err_ls.append(Discc3_list)
