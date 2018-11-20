@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block engine %}
+<div class="aaaaaa">
+    </div>
+    <table style="width: 100%">
+        <tr>
+            <td>
+                <div><h2>引擎历史数据</h2></div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <iframe name="show" id="show" height="500" src="{{ url_for('static',filename='./HCfile/ABTS.txt') }}"
+                        style="min-width: 1200px; border-color: #666"/>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{% endblock %}
+

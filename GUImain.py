@@ -177,6 +177,7 @@ Switch_number=SWPortErrorAnalyze.Switch_number
 Switch_Portnum=SWPortErrorAnalyze.Switch_Portnum
 #__builtin__.Switch_number=Switch_number
 #__builtin__.Switch_Portnum=Switch_Portnum
+__builtin__.flask_ptr = [0]
 __builtin__.ErrList={'EngineReboot':[],'Queue full&ABTS Error':[],'SwitchError':[]}
 __builtin__.SIGNAL=[0]
 __builtin__.Switch_info = [0 for x in range(Switch_number)]
