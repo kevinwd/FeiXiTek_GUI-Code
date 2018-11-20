@@ -170,7 +170,8 @@ import DisplayDashboard
 import SWPortErrorAnalyze
 import SendAlarmEmail
 import paramiko
-
+import ParseEngineVPD
+import EngineAnalyze
 
 Switch_number=SWPortErrorAnalyze.Switch_number
 Switch_Portnum=SWPortErrorAnalyze.Switch_Portnum
@@ -186,7 +187,7 @@ for i in range(Switch_number):   #init all Switch  number info
         
 M_30 = 30*60*1000 
 def task_30m():
-    
+    EngErrorAnalyze=EngineAnalyze.Alarm()
     SWPortErrorAnalyze.SWPortErrorAnalyze()
     SendAlarmEmail.Alarm()
     history=SWPortErrorAnalyze.SaveSwInfo_hist()

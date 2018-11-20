@@ -147,6 +147,11 @@ class xEngine(object):
             if (self.InputToExpect( "rebuild\r", "CLI>", 'vpd')): return False
             if (self.InputToExpect( "bpt\r", "CLI>", 'vpd')): return False
             if (self.InputToExpect( "2nd new\r", "CLI>", 'vpd')): return False
+            #put aborts_and_q_full into VPD file
+            if (self.InputToExpect( "aborts_and_q_full a1\r", "CLI>", 'vpd')): return False
+            if (self.InputToExpect( "aborts_and_q_full a2\r", "CLI>", 'vpd')): return False
+            if (self.InputToExpect( "aborts_and_q_full b1\r", "CLI>", 'vpd')): return False
+            if (self.InputToExpect( "aborts_and_q_full b2\r", "CLI>", 'vpd')): return False
         elif file_ext == 'cmg':
 #
             if fwv == 'V15.7':
