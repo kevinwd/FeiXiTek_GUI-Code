@@ -21,6 +21,7 @@ import ControlSwitch
 import ControlJSON
 import ZipUtility, ControlEmail
 import FlaskStartUp
+import webbrowser
 
 
 file_name = os.path.basename(__file__)
