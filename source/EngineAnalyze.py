@@ -56,7 +56,7 @@ class Alarm():
         ABTS_values = engine_info[i]['ABTS and queue_full'].values()
         for ABTS_value in ABTS_values:
             for ABTS_value_a in ABTS_value:
-                if ABTS_value_a == 0:
+                if ABTS_value_a != 0:
                     ABTS_alarm = ABTS_alarm + ABTS_value_a
         if ABTS_alarm > ABTS_signal:
             ABTS_trigger = 1
