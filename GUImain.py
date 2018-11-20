@@ -166,6 +166,32 @@ ROOT_TIME = 400
 SEC4_TIME = 4000/ROOT_TIME
 __builtin__.task_counter = SEC4_TIME
 
+import DisplayDashboard
+import SWPortErrorAnalyze
+import SendAlarmEmail
+import paramiko
+
+
+Switch_number=SWPortErrorAnalyze.Switch_number
+Switch_Portnum=SWPortErrorAnalyze.Switch_Portnum
+#__builtin__.Switch_number=Switch_number
+#__builtin__.Switch_Portnum=Switch_Portnum
+__builtin__.ErrList={'EngineReboot':[],'Queue full&ABTS Error':[],'SwitchError':[]}
+__builtin__.SIGNAL=[0]
+__builtin__.Switch_info = [0 for x in range(Switch_number)]
+
+for i in range(Switch_number):   #init all Switch  number info
+        Switch_info[i] = {}
+        SWPortErrorAnalyze.initSwitchInfo(i)
+        
+M_30 = 30*60*1000 
+def task_30m():
+    
+    SWPortErrorAnalyze.SWPortErrorAnalyze()
+    SendAlarmEmail.Alarm()
+    history=SWPortErrorAnalyze.SaveSwInfo_hist()
+    root.after(M_30, task_30m)
+
 def task():
 #
 # update LED
@@ -207,6 +233,7 @@ p.startDisplayMenubar(root)
 
 try:
     root.after(100, task)      # This is to avoid pausing introducted by Tkinter functions (not sure why)
+    root.after(100, task_30m)
     dbg.printDBG0(file_name, "GUI mainloop enter")
     root.call('wm', 'attributes', '.', '-topmost', True)
     root.mainloop()
