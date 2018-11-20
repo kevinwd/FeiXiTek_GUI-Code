@@ -1,0 +1,10 @@
+2018-11-08 15:44:12 172.16.254.75
+ PortID  FramTX  FramRX  encout  Discc3  LinkFL  LossSC LossSG
+   3     31.8k   31.8k     0       0       0       0       0    
+   1     31.8k   31.8k     63      0       1       1       1    
+
+2018-11-08 15:44:13 172.16.254.76
+ PortID  FramTX  FramRX  encout  Discc3  LinkFL  LossSC LossSG
+   3       5       5       0       0       0       0       0    
+   2       8       8       0       0       0       0       0    
+
