@@ -215,11 +215,11 @@ class DisplayDashboard(Tkinter.Frame):
 
     def __ConfigurationPanel(self):
         dbg.printDBG1(file_name, "start Configuration window")
-        if MONITOR == 1: return
-#        if DEVELOPMENT == 0:
-#            thread.start_new_thread( tkMessageBox.showinfo, 
-#                ("Configuration Panel", "Configuration will be available for future release."))
-#            return
+        #if MONITOR == 1: return
+        if DEVELOPMENT == 1:
+            thread.start_new_thread( tkMessageBox.showinfo, 
+                ("Configuration Panel", "Configuration will be available for future release."))
+            return
 
         if cfgw_global_ptr[STATUS] == STOPPED:
             dbg.printDBG2(file_name, "new start")
