@@ -137,7 +137,7 @@ class Alarm():
                 for line in lines[Time_number[1]:]:
                     w.write(str(line))
         self.list_initial(Time_number)
-
+        if not os.path.exists('./static/HCfile/'): os.makedirs('./static/HCfile/')
         with open(os.path.join(tracepath+ABTS_filename),'r') as f:
             values = f.readlines()
         with open('./static/HCfile/ABTS.txt','w') as g:
