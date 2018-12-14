@@ -1,1 +1,7 @@
 *.pyc
+*.tmp
+*.cmg
+*.exp
+*.vpd
+*.log
+*.prefs

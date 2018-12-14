@@ -49,8 +49,10 @@ class ParseEngineVPD(object):
         engine_info[i]['Explore'] = {}
         engine_info[i]['DriveSN'] = {}
         engine_info[i]['Registered'] = {}
-        engine_info[i]['Analysis'] = {}        
-#
+        engine_info[i]['Analysis'] = {}    
+        #create engine_info[i]['ABTS and queue_full']
+        engine_info[i]['ABTS and queue_full'] = {}    
+#  
 # Update engine_info and registered database from selected file (.vpd or . cmg)
 #
 # UpdateInfo(i, file='vpd') ; xxxGetEngineVPD(i)
@@ -90,6 +92,8 @@ class ParseEngineVPD(object):
             self.__decodeMaster(i)
             self.__decodeGroup(i)
             self.__decodeRebuild(i)
+            
+            self.__decodeABTS(i)   
 #
         if file_ext == 'cmg':
             self.DecodeLicense(i, self.lines)
@@ -192,6 +196,98 @@ class ParseEngineVPD(object):
 #        B1    2000-006022-0929d4  2300-006022-0929d4
 #        B2    2000-006022-0929d4  2400-006022-0929d4
 #
+    def __decodeABTS(self,eng_number):
+        for start_idx_a1 in range(self.f_length):   # find the last entry
+            if self.lines[start_idx_a1].find("CLI>aborts_and_q_full a1") != -1: break  # found next CLI command, reached the end of this session
+        start_idx_a1 = start_idx_a1 + 2
+        
+        for start_idx_a2 in range(self.f_length):   # find the last entry
+            if self.lines[start_idx_a2].find("CLI>aborts_and_q_full a2") != -1: break  # found next CLI command, reached the end of this session
+        start_idx_a2 = start_idx_a2 + 2
+        
+        for start_idx_b1 in range(self.f_length):   # find the last entry
+            if self.lines[start_idx_b1].find("CLI>aborts_and_q_full b1") != -1: break  # found next CLI command, reached the end of this session
+        start_idx_b1 = start_idx_b1 + 2
+        
+        for start_idx_b2 in range(self.f_length):   # find the last entry
+            if self.lines[start_idx_b2].find("CLI>aborts_and_q_full b2") != -1: break  # found next CLI command, reached the end of this session
+        start_idx_b2 = start_idx_b2 + 2
+        #a1
+        if start_idx_a1 == self.f_length:
+            dbg.printDBG2(file_name, "!!!! commond name not found from Engine%s" % eng_number)
+            #engine_info[eng_number]['ABTS and queue_full']['A1'] = [-99999,-99999] 
+            return False
+        
+        else:
+            info_a = self.lines[start_idx_a1].split(':')
+            info1 = info_a[1].strip('\r\n')        
+            info_b = self.lines[start_idx_a1+6].split(':')
+            info2 = info_b[1].strip('\r\n')            
+            info = [int(info1),int(info2)] 
+            if engine_info[eng_number]['ABTS and queue_full'].has_key('A1'):                
+                info[0] = info[0] + engine_info[eng_number]['ABTS and queue_full']['A1'][0]
+                info[1] = info[1] + engine_info[eng_number]['ABTS and queue_full']['A1'][1]      
+                engine_info[eng_number]['ABTS and queue_full']['A1'] = info 
+            else:
+                engine_info[eng_number]['ABTS and queue_full']['A1'] = info
+                
+        #a2        
+        if start_idx_a2 == self.f_length:
+            dbg.printDBG2(file_name, "!!!! commond name not found from Engine%s" % eng_number)
+            #engine_info[eng_number]['ABTS and queue_full']['A2'] = [-9999,-9999]
+            return False
+        
+        else:
+            info_a = self.lines[start_idx_a2].split(':')
+            info1 = info_a[1].strip('\r\n')        
+            info_b = self.lines[start_idx_a2+6].split(':')
+            info2 = info_b[1].strip('\r\n')            
+            info = [int(info1),int(info2)] 
+            if engine_info[eng_number]['ABTS and queue_full'].has_key('A2'):
+                info[0] = info[0] + engine_info[eng_number]['ABTS and queue_full']['A2'][0]
+                info[1] = info[1] + engine_info[eng_number]['ABTS and queue_full']['A2'][1]      
+                engine_info[eng_number]['ABTS and queue_full']['A2'] = info 
+            else:
+                engine_info[eng_number]['ABTS and queue_full']['A2'] = info
+                
+        #b1
+        if start_idx_b1 == self.f_length:
+            dbg.printDBG2(file_name, "!!!! commond name not found from Engine%s" % eng_number)
+            #engine_info[eng_number]['ABTS and queue_full']['B1'] = [-9999,-9999]
+            return False
+        
+        else:
+            info_a = self.lines[start_idx_b1].split(':')
+            info1 = info_a[1].strip('\r\n')        
+            info_b = self.lines[start_idx_b1+6].split(':')
+            info2 = info_b[1].strip('\r\n')            
+            info = [int(info1),int(info2)] 
+            if engine_info[eng_number]['ABTS and queue_full'].has_key('B1'):
+                info[0] = info[0] + engine_info[eng_number]['ABTS and queue_full']['B1'][0]
+                info[1] = info[1] + engine_info[eng_number]['ABTS and queue_full']['B1'][1]      
+                engine_info[eng_number]['ABTS and queue_full']['B1'] = info 
+            else:
+                engine_info[eng_number]['ABTS and queue_full']['B1'] = info
+        
+        #b2        
+        if start_idx_b2 == self.f_length:
+            dbg.printDBG2(file_name, "!!!! commond name not found from Engine%s" % eng_number)
+            #engine_info[eng_number]['ABTS and queue_full']['B2'] = [-9999,-9999]
+            return False
+        
+        else:
+            info_a = self.lines[start_idx_b2].split(':')
+            info1 = info_a[1].strip('\r\n')        
+            info_b = self.lines[start_idx_b2+6].split(':')
+            info2 = info_b[1].strip('\r\n')            
+            info = [int(info1),int(info2)] 
+            if engine_info[eng_number]['ABTS and queue_full'].has_key('B2'):
+                info[0] = info[0] + engine_info[eng_number]['ABTS and queue_full']['B2'][0]
+                info[1] = info[1] + engine_info[eng_number]['ABTS and queue_full']['B2'][1]      
+                engine_info[eng_number]['ABTS and queue_full']['B2'] = info 
+            else:
+                engine_info[eng_number]['ABTS and queue_full']['B2'] = info
+            
     def __decodeVPD(self, eng_number):
 
         info = self.lines[0].split()

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="test" class="alert alert-TC alert-dismissable hide"
+    role="alert ">
+    <h2 class="text-center">预警提示⚠️请及时处理错误信息!!!</h2>
+</div>
+<!-- Engine Display -->
+<table
+    class="table table-striped table-bordered table-hover  table-condensed">
+    <caption class="text   text-warning">Engine Display</caption>
+    <thead>
+        <tr class="info">
+            <th>Engine:IP</th>
+            <th>Up Time</th>
+            <th>Alert Halt</th>
+            <th>Status</th>
+            <th>Master</th>
+            <th>Mirror</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in range(engine_number) %}
+        <tr class="success">
+            <td class="engineBGC">{{ engine_list[t] }}</td>
+            <td class="uptimeBGC">{{ uptime_list[t] }}</td>
+            <td class="alertBGC">{{ alert_list[t] }}</td>
+            <td class="statusBGC">{{status_list[t]}}</td>
+            <td class="masterBGC">{{ master_list[t] }}</td>
+            <td class="mirrorBGC">{{ Mirror_list[t]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table
+    class="table table-striped table-bordered table-hover  table-condensed">
+    <caption class="text  text-warning">switch Display</caption>
+
+    <thead>
+        <tr class="info">
+            <th>SwitchIP</th>
+            <th>PortID</th>
+            <th>FrameTx</th>
+            <th>FrameRx</th>
+            <th>Encout</th>
+            <th>Discc3</th>
+            <th>LinkFL</th>
+            <th>LossSC</th>
+            <th>LossSG</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for A in range(Switch_Portnum) %}
+        <tr class="success">
+            <td>{{SwitchIP_list2[A]}}</td>
+            <td>{{Switch_Port_list2[A]}}</td>
+            <td>{{frameTx_list[A]}}</td>
+            <td>{{frameRx_list[A]}}</td>
+            <td>{{encout_list[A]}}</td>
+            <td>{{discc3_list[A]}}</td>
+            <td>{{linkFL_list[A]}}</td>
+            <td>{{lossSC_list[A]}}</td>
+            <td>{{lossSG_list[A]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="row">
+
+    <div class="col-xs-8 ">
+        <table
+            class="table table-striped table-bordered table-hover  table-condensed">
+            <caption class="text  text-warning">Error_info Display</caption>
+
+            <thead>
+                <tr class="info">
+                    <th>状态</th>
+                    <th>Ip</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="success">
+                    <td>EngineReboot</td>
+                    <td>{{ErrList_list}}</td>
+
+                </tr>
+                <tr class="success">
+                    <td>Queue full&ABTS Error</td>
+                    <td>{{QFAE_list}}</td>
+
+                </tr>
+                <tr class="success">
+                    <td>SwitchError</td>
+                    <td>{{SE_list}}</td>
+
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <!-- 按钮 -->
+    <div class="col-xs-4"
+        style="line-height: 180px; text-align: center">
+        <form action="/" method="POST">
+            <button name="button_name" type="submit" value="1"
+                class="btn btn-success" data-toggle="tooltip"
+                data-placement="right" data-target="#test"
+                title="用于清除错误信息，请在已确认知道错误的情况下点击此按钮">确认按钮</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

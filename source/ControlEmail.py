@@ -23,6 +23,9 @@ import base64
 import shutil
 import tkMessageBox
 import datetime
+import DisplayMenubar
+import SWPortErrorAnalyze
+from SendAlarmEmail import Alarm
 
 file_name = os.path.basename(__file__)
 
@@ -40,9 +43,6 @@ class xEmail(object):
         uu = info["uu"]
         ww = info["ww"]
 
-        print uu, 'uu'
-        print ww, 'ww'
-                
         FROM = info["uu"]
         TO = [info["recipient1"], info["recipient2"], info["recipient3"], info["recipient4"], info["recipient5"], ]  # must be a list
         TO =[recipent for recipent in TO if recipent.replace(" ","")] 
@@ -113,9 +113,6 @@ class xEmail(object):
         uu = info["uu"]
         ww = info["ww"]
         
-        print uu, 'uu'
-        print ww, 'ww'
-        
         FROM = info["uu"]
         TO = [info["recipient1"], info["recipient2"], info["recipient3"], info["recipient4"], info["recipient5"], ]  # must be a list
         TO =[recipent for recipent in TO if recipent.replace(" ","")] 
@@ -126,10 +123,53 @@ class xEmail(object):
         s = cfg['Engine0']['IP']
         TEXT = info["message"] + "\n" + \
                 "Engine IP = " + s
-        
-        # Prepare actual message
-        message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
-        """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
+        try:
+            if 'Switch error' in status and 'Queue full&ABTS Error' in status and 'Engine Reboot' in status  :
+                s='Reboot Engine IP is :'+ str(ErrList['EngineReboot'])+'\n'+\
+                    'Queue full&ABTS Error Engine IP is :'+ str(ErrList['Queue full&ABTS Error'])+'\n'+\
+                        'Error Switch IP is :'+str(ErrList['SwitchError'])
+                TEXT = info["message"] + "\n" + s
+
+            elif 'Engine Reboot' in status and 'Switch error' in status  :
+                s='Reboot Engine IP is :'+str(ErrList['EngineReboot'])+'\n'+\
+                    'Error Switch IP is :'+str(ErrList['SwitchError'])
+                TEXT = info["message"] + "\n" + s
+            
+            elif 'Switch error'in status and 'Queue full&ABTS Error' in status:
+                s='Queue full&ABTS Error Engine IP is :'+str(ErrList['Queue full&ABTS Error'])+'\n'+\
+                    'Error Switch IP is :'+str(ErrList['SwitchError'])
+                TEXT = info["message"] + "\n" + s
+
+            elif 'Engine Reboot' in status and 'Queue full&ABTS Error' in status:
+                s='Reboot Engine IP is :'+str(ErrList['EngineReboot'])+'\n'+\
+                    'Queue full&ABTS Error Engine IP is :'+str(ErrList['Queue full&ABTS Error'])
+                TEXT = info["message"] + "\n" + s
+
+            elif 'Engine Reboot' in status:
+                s = str(ErrList['EngineReboot'])
+                TEXT = info["message"] + "\n" + \
+                                "Reboot Engine IP = " + s
+
+            elif 'Switch error' in status:
+                s = str(ErrList['SwitchError'])
+                TEXT = info["message"] + "\n" + \
+                            "Error Switch IP = " + s
+
+            elif 'Queue full&ABTS Error' in status:
+                s = str(ErrList['Queue full&ABTS Error'])
+                TEXT = info["message"] + "\n" + \
+                            "Queue full&ABTS Error Engine IP = " + s
+
+            else:
+                s = cfg['Engine0']['IP']
+                TEXT = info["message"] + "\n" + \
+                            "Engine IP = " + s
+
+            # Prepare actual message
+            message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
+            """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
+        except:
+            print 'send Email break' 
         
         
         try:

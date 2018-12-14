@@ -20,6 +20,8 @@ import ControlTCP
 import ControlSwitch
 import ControlJSON
 import ZipUtility, ControlEmail
+import FlaskStartUp
+import webbrowser
 
 
 file_name = os.path.basename(__file__)
@@ -76,6 +78,8 @@ class DisplayMenubar():
             iogmenu.add_command(label="API Command Tester", command=self.__APItester)
             iogmenu.add_command(label="Lapresse test", command=self.__LapresseTest)
             iogmenu.add_command(label="JSON Tester", command=self.__JSONtester)
+            iogmenu.add_command(label="Open Flask Server", command=self.__Flasktester)
+            iogmenu.add_command(label="Close Flask Server", command=self.__CloseServer)
             iogmenu.add_command(label="Exit            ", command=root.quit)
             menubar.add_cascade(label="Development Utility", menu=iogmenu)
 
@@ -380,7 +384,19 @@ class DisplayMenubar():
 # Get Saved Data
         self.menu_enter = "YES"
         self.GetJSONinfo()
-#
+        
+    def __Flasktester(self):  # Flask显示  调用webbrowser    
+        i = DisplayMenubar()
+        t = thread.start_new_thread(i.__OpenWeb, ())
+ 
+    def __CloseServer(self):
+        #Open a webpage to shut down flask server
+        if flask_ptr[0] == 1:
+            webbrowser.open("http://127.0.0.1:3333/shutdown")
+            flask_ptr[0] = 0
+        else:
+            print "Web Server Is Already OFF."
+            
     def __SendAPI(self):
         ans = tkMessageBox.askokcancel("Send API", 
             "Have you saved your change of API Info Table, and want to send the API?")
@@ -1728,4 +1744,13 @@ class DisplayMenubar():
 #        
     def __SetEmailNotification(self):
         d = DisplayMenubar.DisplayMenubar()
-        d.SetEmailNotification()    
+        d.SetEmailNotification()   
+         
+    def __OpenWeb(self): 
+        #webbrowser.open("http://127.0.0.1:3333/")
+        #Add flask server flag
+        if flask_ptr[0]==0:
+            flask_ptr[0]=1
+            FlaskStartUp.main()
+        else:
+            print "Flask Server is Already ON" 

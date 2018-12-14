@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<meta http-equiv="refresh" content="5">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<html>
+
+<title>HA-AP数据</title>
+<head lang="en">
+    <link rel="icon" href="{{ url_for('static',filename='./img/logo.jpg') }}" type="image/x-icon">
+<!-- 路径引用 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+
+
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='./css/index.css') }}">
+<link href="{{ url_for('static',filename='./css/bootstrap.css') }}" rel="stylesheet">
+
+<link href="{{ url_for('static',filename='./css/bootstrap-theme.css') }}" rel="stylesheet">
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="https://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+	<div class="row-fluid">
+		<div class="span12">
+			<!-- 导航栏 -->
+			<nav class="navbar navbar-inverse" role="navigation">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<a class="navbar-brand" href="/">Loxoll</a>
+					</div>
+					<div>
+						<ul class="nav navbar-nav">
+							<li class="active"><a href="#">数据</a></li>
+							<li><a href="#"> <span class="badge pull-right"></span>邮件</a></li>
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown"> 其他 <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+                                    <li class="dropdown-submenu"><a href=" ">历史信息</a >
+                                        <ul class="dropdown-menu pull-right">
+                                        <li><a href="{{ url_for('EngineFile') }}" target="_blank">Engine</a ></li>
+                                        <li><a href="{{ url_for('SwitchFile') }}" target="_blank">Switch</a ></li>
+                                        </ul></li>
+				          <li><a href="www.baidu.com">百度</a ></li>
+				          <li><a href="#">电话</a ></li>
+				          <li><a href="#">技术支持</a ></li>
+				          <li class="divider"></li>
+				         </ul></li>
+
+						</ul>
+					</div>
+
+					<div>
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Search" id="searchInput">
+							</div>
+							<button type="submit" class="btn btn-default" id="searchBtn">查找</button>
+						</form>
+
+					</div>
+				</div>
+			</nav>
+
+            <div class="row">
+                <footer class="footer" style="position: fixed ; bottom: 0;background-color: #fff; min-width: 570px">
+                    <div class="container">
+                        <p class="text-center   text-info">Copyright © 2018 Loxol.All rights reserved.</p>
+                    </div>
+                </footer>
+            </div>
+
+            {% block content %}{% endblock %}
+            {% block switch %}{% endblock %}
+            {% block engine %}{% endblock %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+window.onload=function () {
+    let statusArr = document.getElementsByClassName("statusBGC");
+    let engineArr = document.getElementsByClassName("engineBGC");
+    let uptimeArr = document.getElementsByClassName("uptimeBGC");
+    let alertArr = document.getElementsByClassName("alertBGC");
+    let masterArr = document.getElementsByClassName("masterBGC");
+    let mirrorArr = document.getElementsByClassName("mirrorBGC");
+
+    for(let i=0; i<statusArr.length; i++) {
+        if (statusArr[i].innerHTML === "ONLINE") {
+            statusArr[i].style.backgroundColor = "#dff0d8";
+            engineArr[i].style.backgroundColor = "#dff0d8";
+            uptimeArr[i].style.backgroundColor = "#dff0d8";
+            alertArr[i].style.backgroundColor = "#dff0d8";
+            mirrorArr[i].style.backgroundColor = "#dff0d8";
+            masterArr[i].style.backgroundColor = "#dff0d8";
+        }else {
+            statusArr[i].style.backgroundColor = "#EE7621";
+            engineArr[i].style.backgroundColor = "#EE7621";
+            uptimeArr[i].style.backgroundColor = "#EE7621";
+            alertArr[i].style.backgroundColor = "#EE7621";
+            mirrorArr[i].style.backgroundColor = "#EE7621";
+            masterArr[i].style.backgroundColor = "#EE7621";
+        }
+    }
+    for(let i=0; i<alertArr.length; i++) {
+
+        if (alertArr[i].innerHTML === "None") {
+            statusArr[i].style.backgroundColor = "#dff0d8";
+            engineArr[i].style.backgroundColor = "#dff0d8";
+            uptimeArr[i].style.backgroundColor = "#dff0d8";
+            alertArr[i].style.backgroundColor = "#dff0d8";
+            mirrorArr[i].style.backgroundColor = "#dff0d8";
+            masterArr[i].style.backgroundColor = "#dff0d8";
+        }else {
+            statusArr[i].style.backgroundColor = "#EE7621";
+            engineArr[i].style.backgroundColor = "#EE7621";
+            uptimeArr[i].style.backgroundColor = "#EE7621";
+            alertArr[i].style.backgroundColor = "#EE7621";
+            mirrorArr[i].style.backgroundColor = "#EE7621";
+            masterArr[i].style.backgroundColor = "#EE7621";
+        }
+    }
+}
+
+
+$(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+
+$(function (obj){
+var a = {{signal}};
+if ( a === 1 ){
+        $("#test").attr("class","alert alert-TC alert-dismissable ")
+}else if( a === 0){
+$("#test").attr("class","alert alert-TC alert-dismissable hide")
+}
+        }
+)
+
+$("#searchBtn").on("click", function () {
+    var value = $("#searchInput").val();
+    alert('暂无'+value+'相关内容');
+})
+
+
+
+</script>
+
+
+
+
+
+</body>
+</html>
