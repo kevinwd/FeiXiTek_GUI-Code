@@ -14,10 +14,6 @@ class Alarm():
         Switch_trigger = SWPortErrorAnalyze.Ecount_trigger
         ABTS_trigger=EngineAnalyze.ABTS_trigger
 
-        print 'ABTS_trigger:',ABTS_trigger
-        print 'Switch_trigger:',Switch_trigger
-        print 'Engine_trigger:',Engine_trigger
-
         if ABTS_trigger==1 or Switch_trigger==1 or Engine_trigger==1:
             SIGNAL[0]= 1
             del status[:]
